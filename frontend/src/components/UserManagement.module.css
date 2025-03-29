@@ -1,0 +1,215 @@
+.container {
+  min-height: 100vh;
+  width: 100%;
+  background: #080b16;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  padding: 2rem;
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.gradientBlue {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  opacity: 0.15;
+  background: #4318d1;
+  filter: blur(75px);
+  left: 250px;
+  top: 250px;
+}
+
+.gradientGreen {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  opacity: 0.15;
+  background: #18d1b8;
+  filter: blur(75px);
+  right: 100px;
+  bottom: 50px;
+}
+
+.content {
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 600;
+}
+
+.actionButton {
+  padding: 0.75rem 1.5rem;
+  background: #4318d1;
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  color: white;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+.searchContainer {
+  margin-bottom: 2rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #374151;
+  background: #1f2937;
+  color: white;
+}
+
+.searchInput::placeholder {
+  color: #9ca3af;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #4318d1;
+}
+
+.form {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid #1f2937;
+  background: #111827;
+  box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.2);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  color: #9ca3af;
+}
+
+.input,
+.select {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #374151;
+  background: #1f2937;
+  color: white;
+}
+
+.radioGroup,
+.checkboxGroup {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.radioLabel,
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.radio,
+.checkbox {
+  accent-color: #4318d1;
+}
+
+.formActions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitButton {
+  padding: 0.75rem 1.5rem;
+  background: #4318d1;
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  color: white;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+.tableContainer {
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid #1f2937;
+  background: #111827;
+  box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.2);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeader {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #374151;
+}
+
+.tableCell {
+  padding: 1rem;
+  border-bottom: 1px solid #374151;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editButton,
+.deleteButton {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.editButton {
+  background: #4318d1;
+  color: white;
+}
+
+.deleteButton {
+  background: #dc2626;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+}
