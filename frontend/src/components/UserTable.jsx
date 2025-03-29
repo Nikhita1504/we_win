@@ -7,7 +7,6 @@ const UserTable = ({ users, onDelete, onEdit }) => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th className={styles.tableHeader}>ID</th>
             <th className={styles.tableHeader}>Name</th>
             <th className={styles.tableHeader}>Gender</th>
             <th className={styles.tableHeader}>Designation</th>
@@ -17,8 +16,7 @@ const UserTable = ({ users, onDelete, onEdit }) => {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id} className={styles.tableRow}>
-              <td className={styles.tableCell}>{user.id}</td>
+            <tr key={user._id} className={styles.tableRow}>
               <td className={styles.tableCell}>{user.name}</td>
               <td className={styles.tableCell}>{user.gender}</td>
               <td className={styles.tableCell}>{user.designation}</td>
@@ -32,7 +30,7 @@ const UserTable = ({ users, onDelete, onEdit }) => {
                     Edit
                   </button>
                   <button
-                    onClick={() => onDelete(user.id)}
+                    onClick={() => onDelete(user._id)}
                     className={styles.deleteButton}
                   >
                     Delete

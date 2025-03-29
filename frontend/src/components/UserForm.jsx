@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import styles from "./UserManagement.module.css";
 
@@ -7,7 +6,6 @@ const FAVORITE_OPTIONS = ["Reading", "Gaming", "Sports", "Music"];
 
 const UserForm = ({ onSubmit, editingUser }) => {
   const [formData, setFormData] = useState({
-    id: editingUser?.id || null,
     name: "",
     gender: "",
     designation: "",
@@ -16,7 +14,12 @@ const UserForm = ({ onSubmit, editingUser }) => {
 
   useEffect(() => {
     if (editingUser) {
-      setFormData(editingUser);
+      setFormData({
+        name: editingUser.name,
+        gender: editingUser.gender,
+        designation: editingUser.designation,
+        favorites: [...editingUser.favorites]
+      });
     }
   }, [editingUser]);
 
@@ -40,11 +43,20 @@ const UserForm = ({ onSubmit, editingUser }) => {
     return true;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validate()) return;
-    onSubmit(formData);
+ // In your UserForm component
+const handleSubmit = (e) => {
+  e.preventDefault();
+  
+  const userData = {
+    _id: editingUser?._id, // Make sure this is included
+    name: formData.name,
+    gender: formData.gender,
+    designation: formData.designation,
+    favorites: formData.favorites
   };
+
+  onSubmit(userData);
+};
 
   const handleFavoriteToggle = (option) => {
     setFormData((prev) => ({

@@ -1,53 +1,93 @@
-
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styles from "./UserManagement.module.css";
 import UserForm from "./UserForm";
 import UserTable from "./UserTable";
 import SearchBar from "./SearchBar";
+import { ToastContainer, toast } from 'react-toastify';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
-  const [currentId, setCurrentId] = useState(1);
   const [showForm, setShowForm] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
+  // API base URL - adjust according to your backend
+  const API_URL = "http://localhost:3000/api/users";
+
   useEffect(() => {
-    const storedUsers = JSON.parse(localStorage.getItem("users") || "[]");
-    const storedId = parseInt(localStorage.getItem("currentId") || "1");
-    setUsers(storedUsers);
-    setCurrentId(storedId);
+    fetchUsers();
   }, []);
 
-  const saveToLocalStorage = (updatedUsers, newId) => {
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
-    localStorage.setItem("currentId", newId.toString());
+  const fetchUsers = async (query = "") => {
+    try {
+      let url = API_URL;
+      if (query) {
+        url = `${API_URL}/search/${query}`;
+      }
+      const response = await axios.get(url);
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      alert("Failed to fetch users");
+    }
   };
 
-  const handleAddUser = (userData) => {
-    const newUser = { ...userData, id: currentId };
-    const updatedUsers = [...users, newUser];
-    setUsers(updatedUsers);
-    setCurrentId(currentId + 1);
-    setShowForm(false);
-    saveToLocalStorage(updatedUsers, currentId + 1);
+  const handleAddUser = async (userData) => {
+    try {
+      const response = await axios.post(API_URL, userData);
+      setUsers([...users, response.data]);
+      setShowForm(false);
+      toast.success("user added sucessfully")
+      return true;
+    } catch (error) {
+      console.error("Error adding user:", error);
+      alert("Failed to add user");
+      return false;
+    }
   };
 
-  const handleUpdateUser = (userData) => {
-    const updatedUsers = users.map((user) =>
-      user.id === userData.id ? userData : user,
-    );
-    setUsers(updatedUsers);
-    setEditingUser(null);
-    setShowForm(false);
-    saveToLocalStorage(updatedUsers, currentId);
+  const handleUpdateUser = async (userData) => {
+    try {
+      // Ensure we have a valid _id
+      if (!userData._id) {
+        throw new Error("User ID is missing");
+      }
+  
+      const response = await axios.put(
+        `${API_URL}/${userData._id}`,
+        userData
+      );
+      
+      setUsers(users.map(user => 
+        user._id === response.data._id ? response.data : user
+      ));
+      setEditingUser(null);
+      setShowForm(false);
+      toast.success("user updated sucessfully")
+      return true;
+    } catch (error) {
+      console.error("Update error:", {
+        error: error.response?.data || error.message,
+        userData // Log the data being sent
+      });
+      alert(error.response?.data?.error || "Failed to update user");
+      return false;
+    }
   };
 
-  const handleDeleteUser = (id) => {
+  const handleDeleteUser = async (id) => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
-    const updatedUsers = users.filter((user) => user.id !== id);
-    setUsers(updatedUsers);
-    saveToLocalStorage(updatedUsers, currentId);
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      setUsers(users.filter(user => user._id !== id));
+      toast.error("user deleted sucessfully")
+      return true;
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("Failed to delete user");
+      return false;
+    }
   };
 
   const handleEditUser = (user) => {
@@ -100,6 +140,7 @@ const UserManagement = () => {
           />
         </section>
       </div>
+      <ToastContainer />
     </main>
   );
 };
